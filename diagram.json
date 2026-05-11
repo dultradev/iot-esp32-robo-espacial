@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-breadboard", "id": "bb1", "top": -204.6, "left": -131.6, "attrs": {} },
+    { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-analog-joystick", "id": "joystick1", "top": 18.6, "left": 159, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": -115.8,
+      "left": 108.6,
+      "rotate": 90,
+      "attrs": { "color": "green", "xray": "1" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -152,
+      "left": -24.6,
+      "rotate": 180,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": -152,
+      "left": 33,
+      "rotate": 180,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -100.8,
+      "left": -38.95,
+      "rotate": 90,
+      "attrs": { "value": "200" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": -100.8,
+      "left": 18.65,
+      "rotate": 90,
+      "attrs": { "value": "200" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "esp:GND.2", "bb1:bn.16", "black", [ "v0" ] ],
+    [ "esp:3V3.1", "bb1:bp.9", "red", [ "v0" ] ],
+    [ "bb1:bn.1", "bb1:tn.1", "black", [ "v0" ] ],
+    [ "bb1:bp.2", "bb1:tp.2", "red", [ "v0" ] ],
+    [ "joystick1:VCC", "bb1:bp.20", "red", [ "h-48", "v-152.7" ] ],
+    [ "joystick1:GND", "bb1:bn.25", "black", [ "h57.6", "v-142.7" ] ],
+    [ "bb1:tn.9", "bb1:12t.a", "black", [ "v28.7", "h-0.8" ] ],
+    [ "bb1:tn.14", "bb1:18t.a", "black", [ "v0" ] ],
+    [ "bb1:11b.i", "esp:7", "red", [ "v0" ] ],
+    [ "bb1:17b.i", "esp:8", "green", [ "h-76.8", "v192.18" ] ],
+    [ "bb1:26t.c", "esp:6", "green", [ "h-182.4", "v211.38" ] ],
+    [ "bb1:28b.j", "bb1:bn.22", "black", [ "v0" ] ],
+    [ "btn1:1.l", "bb1:28t.d", "", [ "$bb" ] ],
+    [ "btn1:2.l", "bb1:26t.d", "", [ "$bb" ] ],
+    [ "btn1:1.r", "bb1:28b.i", "", [ "$bb" ] ],
+    [ "btn1:2.r", "bb1:26b.i", "", [ "$bb" ] ],
+    [ "r1:1", "bb1:11t.d", "", [ "$bb" ] ],
+    [ "r1:2", "bb1:11b.h", "", [ "$bb" ] ],
+    [ "r2:1", "bb1:17t.d", "", [ "$bb" ] ],
+    [ "r2:2", "bb1:17b.h", "", [ "$bb" ] ],
+    [ "led1:A", "bb1:11t.b", "", [ "$bb" ] ],
+    [ "led1:C", "bb1:12t.b", "", [ "$bb" ] ],
+    [ "led2:A", "bb1:17t.b", "", [ "$bb" ] ],
+    [ "led2:C", "bb1:18t.b", "", [ "$bb" ] ],
+    [ "joystick1:VERT", "esp:5", "white", [ "v28.8", "h-196.52" ] ],
+    [ "joystick1:HORZ", "esp:4", "white", [ "v57.6", "h-206.12" ] ]
+  ],
+  "dependencies": {}
+}
