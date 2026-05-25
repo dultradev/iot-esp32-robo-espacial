@@ -32,3 +32,59 @@ Para visualizar e testar o funcionamento do controle remoto, siga os passos abai
 
 ---
 *Projeto desenvolvido como parte dos estudos de Engenharia de Computação no SENAI CIMATEC.*
+
+# 🚀 Robô Explorador IoT: Telemetria e Controle com ESP32-S3 na AWS
+
+Este projeto consiste no desenvolvimento do firmware e da arquitetura de nuvem para um **Robô Explorador Espacial**. O sistema utiliza um único microcontrolador **ESP32-S3** para processar, simultaneamente, os comandos manuais de um controle remoto (joystick) e a coleta autônoma de dados ambientais, calculando em tempo real a "Probabilidade de Vida" em um ambiente.
+
+O projeto integra computação na borda (Edge Computing) com serviços de mensageria na nuvem (**AWS IoT Core**, **Amazon DynamoDB**) e envio de alertas críticos via **WhatsApp** (CallMeBot API).
+
+---
+
+## ⚙️ Funcionalidades
+
+- **Controle Remoto em Tempo Real:** Leitura de um joystick analógico e atuação imediata em um Servo Motor (SG90) simulando a locomoção do robô, com trava de segurança (Botão de Emergência).
+- **Sensoriamento Ambiental:** Coleta de dados de temperatura e umidade (DHT22), luminosidade (LDR) e presença/movimento (PIR).
+- **Algoritmo de Probabilidade de Vida:** Avaliação local das condições do ambiente. Se a probabilidade calculada for superior a 75%, o robô entra em estado de Alerta.
+- **Telemetria na Nuvem (AWS):** Envio dos dados estruturados em JSON via protocolo MQTT com criptografia TLS para o AWS IoT Core, que roteia as mensagens automaticamente para o Amazon DynamoDB.
+- **Alertas via WhatsApp:** Notificações disparadas automaticamente via requisição HTTP POST para a API do CallMeBot em situações de alta probabilidade de vida.
+
+---
+
+## 🛠️ Arquitetura de Hardware (Pinout)
+
+Todo o sistema foi consolidado em uma única placa **ESP32-S3**.
+
+**Módulo Controle Remoto:**
+- **Joystick X:** GPIO 4
+- **Joystick Y:** GPIO 5
+- **Botão (Trava de Segurança):** GPIO 6
+- **LED Verde (Operando):** GPIO 8
+- **LED Vermelho (Desligado):** GPIO 7
+
+**Módulo Robô Explorador:**
+- **Servo Motor (SG90):** GPIO 13 (PWM)
+- **Sensor DHT22:** GPIO 12
+- **Sensor PIR:** GPIO 10
+- **Sensor LDR:** GPIO 9
+- **LED Amarelo (Ligado):** GPIO 15
+- **LED Branco (Alerta/Trava):** GPIO 16
+- **LED Verde (Exploração Normal):** GPIO 17
+- **LED Vermelho (Prob. Vida > 75%):** GPIO 18
+
+---
+
+## ☁️ Arquitetura AWS e Banco de Dados
+
+Os dados são enviados no seguinte formato JSON para o tópico `esp32grm/ww/pub`:
+
+```json
+{
+  "ID": "2",
+  "timestamp": "2025-09-02T14:35:00Z",
+  "temperatura_c": 24.3,
+  "umidade_pct": 55.0,
+  "luminosidade": 723,
+  "presenca": 1,
+  "probabilidade_vida": 78.0
+}
